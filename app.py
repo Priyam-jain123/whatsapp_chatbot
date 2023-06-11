@@ -8,7 +8,7 @@ app =Flask(__name__)
 def home():
     if request.method  == 'POST':
         bot = ultrachatbot(request.json)
-        return bot.Processing_incoming_messages()
+        return bot.Processingـincomingـmessages()
 
 if (__name__)== '__main__':
     app.run()
