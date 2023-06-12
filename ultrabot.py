@@ -1,6 +1,7 @@
 import json
 import requests
 import datetime
+from NLP import Chatbot
 
 class ultrachatbot():
     def __init__(self,json):
@@ -13,7 +14,7 @@ class ultrachatbot():
         url=f"https://api.ultramsg.com/instance50227/{type}?token=t7jqrsly31qa80zz"
         headers={'content-type':'application/json'}
         answer=requests.request("POST",url,data=json.dumps(data),headers=headers)
-        print(answer.text)
+        print(answer)
         return answer.json()
     
     def send_message(self,ChatID,text):
@@ -53,48 +54,39 @@ class ultrachatbot():
         time = t.strftime('%Y-%m-%d %H:%M:%S')
         return self.send_message(chatID, time)
     
-    def welcome(self,ChatID,noWelcome=False):
+    def welcome(self,ChatID,text='hi',noWelcome=False):
         welcome_str=''
         if noWelcome==False:
             welcome_str='HI, Welcome to Quarks Industrials\n'
         else:
-            welcome_str = """wrong command
-Please type one of these commands:
-*hi* : Saluting
-*time* : show server time
-*image* : I will send you a picture
-*video* : I will send you a Video
-*audio* : I will send you a audio file
-*voice* : I will send you a ppt audio recording
-*contact* : I will send you a contact
-""" 
+            cb=Chatbot()
+            welcome_str=cb.text_generation(text)
         return self.send_message(ChatID,welcome_str)
     
     def Processingـincomingـmessages(self):
         if self.dict_messages!=[]:
             messages=self.dict_messages
-            print(self.dict_messages)
-            text=messages['body'].split()
+            text=messages['body']
             if not messages['fromMe']:
                 ChatID=messages['from']
-                if text[0].lower()=='hi':
+                if text.lower()=='hi':
                     return self.welcome(ChatID)
-                elif text[0].lower()=='time':
+                elif text.lower()=='time':
                     return self.time(ChatID)
-                elif text[0].lower()=='image':
+                elif text.lower()=='image':
                     return self.send_image(ChatID)
-                elif text[0].lower()=='audio':
+                elif text.lower()=='audio':
                     return self.send_audio(ChatID)
-                elif text[0].lower()=='voice':
+                elif text.lower()=='voice':
                     return self.send_voice(ChatID)
-                elif text[0].lower()=='video':
+                elif text.lower()=='video':
                     return self.send_video(ChatID)
-                elif text[0].lower()=='image':
+                elif text.lower()=='image':
                     return self.send_image(ChatID)
-                elif text[0].lower()=='contact':
+                elif text.lower()=='contact':
                     return self.send_contact(ChatID)
                 else:
-                    return self.welcome(ChatID,True)
+                    return self.welcome(ChatID,text,True)
         else: return 'NoCommand'
 
                 
