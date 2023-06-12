@@ -2,7 +2,9 @@
 This is a Whatsapp chatbot that is capable of receiving orders for small business.
 
 ---
-At current version the chatbot is able to repond to some basic keywords.
 
-Future works:
--Being integrated with NLP to ensure responses to more general language.
+At current version the chatbot is now NLP enabled and is now able to make a conversation with the user.
+
+---
+
+-Next I am going to add context to chat bot, it will then be able to talk by keeping its products in mind.
